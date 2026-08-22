@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nageldesign-Kurs für Luisa</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #faf8f5 0%, #e8dcc8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4a3728;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #8b7355;
+            font-style: italic;
+        }
+
+        .registration-form {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a3728;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e8dcc8;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #4a3728;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4a574;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: #d4a574;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #c9945f;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .coach-section {
+            background: #ffe8d6;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .coach-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .coach-message {
+            color: #4a3728;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .voice-btn {
+            padding: 10px 20px;
+            background: #d4a574;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .module-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 5px solid #d4a574;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .module-card h3 {
+            color: #4a3728;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chapters-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chapter-item {
+            padding: 10px;
+            background: #faf8f5;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #4a3728;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .chapter-item:hover {
+            background: #f0e8dc;
+            border-left-color: #d4a574;
+        }
+
+        .chapter-item.completed {
+            background: #d4f4dd;
+            border-left-color: #2d5a3d;
+            color: #2d5a3d;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e8dcc8;
+            border-radius: 4px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #d4a574;
+            transition: width 0.3s;
+        }
+
+        .chapter-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .chapter-header {
+            border-bottom: 2px solid #d4a574;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chapter-header h2 {
+            color: #4a3728;
+            font-size: 28px;
+            margin: 10px 0 0 0;
+            font-weight: 300;
+        }
+
+        .section-title {
+            color: #8b7355;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-box {
+            background: #faf8f5;
+            padding: 15px;
+            border-radius: 4px;
+            color: #4a3728;
+            line-height: 1.6;
+            font-size: 13px;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tool-tag {
+            background: #d4a574;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .practice-box {
+            background: #fff9f5;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #d4a574;
+            margin-bottom: 20px;
+            color: #4a3728;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .quiz-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #faf8f5;
+            border-radius: 8px;
+            border-left: 4px solid #d4a574;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .answer-option {
+            margin: 10px 0;
+        }
+
+        .answer-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px;
+            background: #fff;
+            border-radius: 4px;
+            border: 1px solid #e8dcc8;
+            transition: all 0.3s;
+        }
+
+        .answer-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .answer-option label:hover {
+            border-color: #d4a574;
+        }
+
+        .answer-option input[type="radio"]:checked + label {
+            background: #fff9f5;
+            border-color: #d4a574;
+        }
+
+        .quiz-result {
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .quiz-result.passed {
+            background: #d4f4dd;
+        }
+
+        .quiz-result.failed {
+            background: #ffd6d6;
+        }
+
+        .quiz-result h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .quiz-result.passed h3 {
+            color: #2d5a3d;
+        }
+
+        .quiz-result.failed h3 {
+            color: #8b3a3a;
+        }
+
+        .quiz-result.passed p,
+        .quiz-result.failed p {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .certificate-box {
+            background: linear-gradient(135deg, #ffe8d6 0%, #d4a574 100%);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .certificate-box h2 {
+            color: #4a3728;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .certificate-box p {
+            color: #8b7355;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .course-complete {
+            background: linear-gradient(135deg, #d4a574 0%, #8b7355 100%);
+            padding: 50px;
+            border-radius: 8px;
+            text-align: center;
+            color: #fff;
+            margin-top: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .course-complete h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .course-complete h2 {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .course-complete p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 16px 40px;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .progress-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .progress-section h3 {
+            color: #4a3728;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 600;
+            color: #d4a574;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #8b7355;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        function NageldesignKurs() {
+            const [user, setUser] = useState(null);
+            const [currentChapter, setCurrentChapter] = useState(0);
+            const [showCoach, setShowCoach] = useState(true);
+            const [showQuiz, setShowQuiz] = useState(false);
+            const [quizAnswers, setQuizAnswers] = useState({});
+            const [quizSubmitted, setQuizSubmitted] = useState(false);
+            const [quizScore, setQuizScore] = useState(0);
+            const [showModuleCertificate, setShowModuleCertificate] = useState(false);
+            const [completedModules, setCompletedModules] = useState([]);
+            const [completedChapters, setCompletedChapters] = useState([]);
+            const audioRef = useRef(null);
+
+            // Quiz-Fragen
+            const quizQuestions = {
+                1: [
+                    { question: 'Wie schnell wachsen Nägel pro Monat?', answers: ['1-2mm', '3-4mm', '5-6mm', '7-8mm'], correct: 1 },
+                    { question: 'Welche Teil des Nagels ist der sichtbare Part?', answers: ['Nagelbett', 'Nagelplatte', 'Kutikula', 'Matrix'], correct: 1 },
+                    { question: 'Wie lange braucht es für einen vollständigen Nagelwechsel?', answers: ['2-3 Monate', '4-5 Monate', '6-8 Monate', '10-12 Monate'], correct: 2 },
+                ],
+                2: [
+                    { question: 'Was ist ein sicheres Zeichen für Pilzbefall?', answers: ['Leichte Verfärbung', 'Gelb/weiße Verfärbung + Verdickung', 'Kleine Kratzer', 'Nagel ist zu kurz'], correct: 1 },
+                    { question: 'Was solltest du tun, wenn ein Kunde Pilz hat?', answers: ['Normalerweise arbeiten', 'Kunde zu Arzt schicken', 'Mit stärkerer Desinfektion arbeiten', 'Nur Refill machen'], correct: 1 },
+                ],
+                3: [
+                    { question: 'Welche Körnung ist für grobes Feilen?', answers: ['240er', '180er', '400er', '600er'], correct: 1 },
+                    { question: 'Wie lange dauert LED-Lampe zum Aushärten?', answers: ['3-5 Minuten', '30-60 Sekunden', '10-15 Minuten', '20-30 Sekunden'], correct: 1 },
+                    { question: 'Wie viel Watt sollte eine LED-Lampe mindestens haben?', answers: ['30W', '60W', '100W', '150W'], correct: 1 },
+                ],
+                4: [
+                    { question: 'Was ist der Zweck eines Base Coats?', answers: ['Glanz', 'Haftgrund', 'Farbe', 'Versiegelung'], correct: 1 },
+                    { question: 'Welches Produkt braucht man für Gelnägel?', answers: ['Nur Nagellack', 'Gel + Lampe', 'Nur Feile', 'Nur Öl'], correct: 1 },
+                ],
+                5: [
+                    { question: 'Wie oft solltest du Hände vor jeder Kundin waschen?', answers: ['Optional', 'Immer', 'Nur am Anfang', '2-3 mal pro Tag'], correct: 1 },
+                    { question: 'Wie lange sollte man Hände mit Seife waschen?', answers: ['5 Sekunden', '10 Sekunden', '20 Sekunden', '30 Sekunden'], correct: 2 },
+                ],
+                6: [
+                    { question: 'Was ist der erste Schritt bei Nagelvorbereitung?', answers: ['Öl auftragen', 'Länge kürzen', 'Farbe auswählen', 'Lampe anmachen'], correct: 1 },
+                    { question: 'Welche Struktur sollte der Nagel vor Gel haben?', answers: ['Glänzend', 'Matt & leicht rau', 'Nass', 'Ölig'], correct: 1 },
+                ],
+                7: [
+                    { question: 'Wie lange hält eine natürliche Maniküre?', answers: ['1 Woche', '2 Wochen', 'Permanent - nur Struktur', '1 Monat'], correct: 2 },
+                    { question: 'In welche Richtung feilst du den Nagel?', answers: ['Sägend hin und her', 'Von außen nach innen', 'Nur von vorne', 'Beliebig'], correct: 1 },
+                ],
+                8: [
+                    { question: 'Wie viele Schichten Nagellack sind Standard?', answers: ['1 Schicht', '2-3 Schichten', '4 Schichten', '5+ Schichten'], correct: 1 },
+                    { question: 'Warum ist Top Coat wichtig?', answers: ['Für Farbe', 'Glanzfinish & Schutz', 'Für Haftung', 'Für Trocknungszeit'], correct: 1 },
+                ],
+                9: [
+                    { question: 'Was bedeutet "French Nails"?', answers: ['Französische Farben', 'Weiße Spitze + Naturton Nagel', 'Nur für Frankreich', 'Glitter Design'], correct: 1 },
+                    { question: 'Mit was malst du die weiße Linie bei French Nails?', answers: ['Breiter Pinsel', 'Dünner Pinsel oder Schablone', 'Stamper', 'Feile'], correct: 1 },
+                ],
+                10: [
+                    { question: 'Wie lange halten Gelnägel auf Naturnägeln?', answers: ['1-2 Wochen', '2-3 Wochen', '3-4 Wochen', '8-10 Wochen'], correct: 2 },
+                    { question: 'Was ist der erste Gel-Layer?', answers: ['Farbgel', 'Base Coat', 'Top Coat', 'Aufbaugel'], correct: 1 },
+                ],
+                11: [
+                    { question: 'Welche Methode zum Gel-Entfernen ist am schonendsten?', answers: ['Abpellen', 'Aceton-Einweich', 'Aggressive Feile', 'Mit Eis'], correct: 1 },
+                    { question: 'Wie lange sollte Gel in Aceton einweichen?', answers: ['3-5 Minuten', '10-15 Minuten', '20-30 Minuten', '45+ Minuten'], correct: 1 },
+                ],
+                12: [
+                    { question: 'Wofür ist die Gel-Schablone beim Aufbau zuständig?', answers: ['Zum Polieren', 'Definiert Länge & Spitzenform', 'Zum Reinigen', 'Zum Trocknen'], correct: 1 },
+                    { question: 'Wie viele Aushärtungs-Zyklen brauchst du normalerweise?', answers: ['1', '2-3', '5+', 'Abhängig von Lampen-Watt'], correct: 1 },
+                ],
+                13: [
+                    { question: 'Wie viel Gel sollte pro Schicht verwendet werden?', answers: ['Viel', 'Erbsengroße Menge', 'Minimale Menge', 'Nach Gefühl'], correct: 1 },
+                    { question: 'Was ist wichtig für die Architektur des Gelnagels?', answers: ['Farbe', 'Wölbung & Stabilität', 'Länge', 'Dicke'], correct: 1 },
+                ],
+                14: [
+                    { question: 'Nach wie vielen Wochen brauchst du ein Refill?', answers: ['2 Wochen', '4-6 Wochen', '8-10 Wochen', '3 Monate'], correct: 1 },
+                    { question: 'Was ist der Zweck eines Refills?', answers: ['Farbe ändern', 'Naturnagel-Wachstum füllen', 'Kompletter Neubau', 'Nagel kürzen'], correct: 1 },
+                ],
+                15: [
+                    { question: 'Was verursacht Blasenbildung unter Gel?', answers: ['Zu wenig Feilen', 'Zu viel Gel oder Luft eingeschlossen', 'Falsche Lampe', 'Kalte Temperatur'], correct: 1 },
+                    { question: 'Wie verbesserst du schlechte Haftung?', answers: ['Mehr Gel', 'Immer aufrauen + Base Coat', 'Weniger Lampe', 'Mehr Cleaner'], correct: 1 },
+                ],
+                16: [
+                    { question: 'Was ist Acryl?', answers: ['Gel-ähnlicher Stoff', 'Chemische Reaktion: Pulver + Flüssigkeit', 'Eine Farbe', 'Eine Feile'], correct: 1 },
+                    { question: 'Braucht Acryl eine Lampe?', answers: ['Ja, LED', 'Ja, UV', 'Nein, härtet chemisch aus', 'Optional'], correct: 2 },
+                ],
+                17: [
+                    { question: 'Welche Form ist am stabilsten für Acrylnägel?', answers: ['Sehr spitz', 'Sehr breit', 'Oval mit leichter Spitze', 'Eckig'], correct: 2 },
+                    { question: 'Wie lang sollte die Acryl-Spitze sein?', answers: ['So lang wie möglich', '5-8mm über Fingerspitze', '1-2mm', '10+mm'], correct: 1 },
+                ],
+                18: [
+                    { question: 'Wie entfernst du Acryl am schonendsten?', answers: ['Mit bloßer Feile', 'Aceton-Einweich + leichtes Abhobeln', 'Mit Nagellackentferner', 'Abpellen'], correct: 1 },
+                    { question: 'Was ist der Nachteil von Acryl-Nägeln?', answers: ['Halten nicht lange', 'Schwerer zu reparieren', 'Zu dünn', 'Keine Farbe möglich'], correct: 1 },
+                ],
+                19: [
+                    { question: 'Was brauchst du für Hand-Painted Designs?', answers: ['Nur Nagellack', 'Dünne & breite Pinsel', 'Stamper', 'Elektrofräser'], correct: 1 },
+                    { question: 'Wie oft solltest du Nail-Art üben?', answers: ['Nur bei Kundenterminen', '15 Min täglich ideal', 'Einmal pro Woche', 'Selten'], correct: 1 },
+                ],
+                20: [
+                    { question: 'Was ist ein Ombré-Effekt?', answers: ['Eine Farbe', 'Sanfter Farbverlauf', 'Glitter', 'Schablone'], correct: 1 },
+                    { question: 'Mit welchem Tool machst du Ombré am easiest?', answers: ['Pinsel', 'Schwamm-Stück', 'Feile', 'Stamper'], correct: 1 },
+                ],
+                21: [
+                    { question: 'Was ist Stamping?', answers: ['Manuell malen', 'Bilder von Platte auf Nagel übertragen', 'Mit Feile arbeiten', 'Gel auftragen'], correct: 1 },
+                    { question: 'Welche 3 Tools brauchst du zum Stamping?', answers: ['Lampe, Gel, Feile', 'Stamper, Platte, Schaber', 'Pinsel, Farbe, Tuch', 'Schablone, Gel, Lampe'], correct: 1 },
+                ],
+                22: [
+                    { question: 'Was ist Chrome-Puder?', answers: ['Eine Farbe', 'Ein metallischer, spiegelnder Effekt', 'Ein Glitter', 'Eine Feile'], correct: 1 },
+                    { question: 'Wie trägst du Chrome auf?', answers: ['Mit Pinsel', 'Mit Schwamm auf klebrigem Top Coat', 'Mit Feile', 'Direkt ins Gel'], correct: 1 },
+                ],
+                23: [
+                    { question: 'Was solltest du beim 3D-Design beachten?', answers: ['Je mehr Steine, desto besser', 'Nicht zu schwer (bricht)', 'Große Steine sind besser', 'Alle Nägel vollbepacken'], correct: 1 },
+                    { question: 'Mit welchem Kleber befestigst du Strasssteine?', answers: ['Nagellack', 'UV-Kleber oder Gel-Kleber', 'Wasser', 'Öl'], correct: 1 },
+                ],
+                24: [
+                    { question: 'Welches ist ein zeitloses Design?', answers: ['Immer ändernde Trends', 'Französisch-klassisch', 'Nur Neon', 'Nur für Kinder'], correct: 1 },
+                    { question: 'Wie lange dauert ein Glitter-Gradient-Design?', answers: ['5 Minuten', '15-20 Minuten', '45-60 Minuten', '2 Stunden'], correct: 1 },
+                ],
+                25: [
+                    { question: 'Wie sammelst du gute Design-Inspirationen?', answers: ['Einmalig anschauen', 'Pins/Boards erstellen & analysieren', 'Nur von einer Quelle', 'Zufällig'], correct: 1 },
+                    { question: 'Wie viele Inspirationsbilder solltest du sammeln?', answers: ['10', '50+', '5', '100+'], correct: 1 },
+                ],
+                26: [
+                    { question: 'Was machst du wenn Gel unter Schablone läuft?', answers: ['Weiterarbeiten', 'Mit Pusher entfernen, vor Lampe aushärten', 'Komplett neu machen', 'Kundin anrufen'], correct: 1 },
+                    { question: 'Wie reparierst du einen Bruch während Modellage?', answers: ['Nail-Tipp abbrechen', 'Mit Schablone reparieren & aufbauen', 'Aufgeben', 'Kompletter Neubau'], correct: 1 },
+                ],
+                27: [
+                    { question: 'Wie lange halten Gel-Nägel mit guter Pflege?', answers: ['2-3 Wochen', '4-6 Wochen', 'Mit Refills: 8-10 Wochen+', '12+ Wochen'], correct: 2 },
+                    { question: 'Was ist dein Best-Friend für Nagelpflege?', answers: ['Wasser', 'Öl', 'Farbe', 'Lampe'], correct: 1 },
+                ],
+                28: [
+                    { question: 'Was war für deine erste Kundin wichtig?', answers: ['Perfekt sein', 'Ruhe bewahren & Hygiene', 'Schnell arbeiten', 'Mit Video arbeiten'], correct: 1 },
+                    { question: 'Wie lange brauchst du bis zur ersten Kundin?', answers: ['1-2 Wochen', '40-60 Stunden Üben', '1 Tag', 'Sofort'], correct: 1 },
+                ],
+            };
+
+            const kapitelInhalt = [
+                {
+                    id: 1,
+                    title: 'Anatomie der Nägel',
+                    content: 'Wie der Nagel aufgebaut ist:\n- Nagelplatte: Der sichtbare, harte Teil\n- Nagelbett: Die Schicht unter der Platte\n- Kutikula: Schutzhaut am Rand\n\nWie schnell Nägel wachsen:\n- 3-4mm pro Monat\n- Ca. 6-8 Monate für vollständigen Wechsel\n\nWelche Nägel gut für Verlängerung geeignet sind:\n- Stabilität wichtig\n- Natürliche Nägel sollten gesund sein',
+                    tools: ['Nagelhaut-Pusher', 'Feile', 'Lupe', 'Pinzette'],
+                    practice: 'Untersuche deine Nägel genau. Erkenne die Unterschiede zwischen Nagelplatte und Nagelbett. Messe dein Nagelwachstum über 2 Wochen.',
+                    modul: 1
+                },
+                {
+                    id: 2,
+                    title: 'Nagelerkrankungen erkennen',
+                    content: 'Pilzbefall – woran man es sieht:\n- Gelb/weiße Verfärbung\n- Verdickung des Nagels\n- Brüchigkeit\n\nVerfärbte oder kaputte Nägel – was man damit macht:\n- Nie über Pilz arbeiten\n- Kunde zu Arzt schicken\n- Dokumentieren\n\nWann man lieber nicht arbeitet (Infektionen):\n- Bei sichtbarem Befall\n- Bei offenen Wunden\n- Bei allergischen Reaktionen',
+                    tools: ['Lupe', 'Desinfektionsmittel', 'Handschuhe'],
+                    practice: 'Recherchiere verschiedene Nagelerkrankungen. Schau dir Bilder an. Lerne, problematische Nägel zu erkennen.',
+                    modul: 1
+                },
+                {
+                    id: 3,
+                    title: 'Werkzeuge – Was brauchst du?',
+                    content: 'Feilen (Körnung, Material, Formen):\n- 180er: Grobes Feilen\n- 240er: Mittelfein\n- 400er: Feinschliff\n- Material: Metall ist am besten\n\nNagelhaut-Pusher und Zangen:\n- Für sanftes Zurückschieben\n- Essentiell für Vorbereitung\n\nElektrofräser – welcher ist gut:\n- 20.000-30.000 RPM ideal\n- Mit verschiedenen Körnungen\n\nUV/LED-Lampen – Unterschiede und Handhabung:\n- LED: Schneller, moderne Technik\n- UV: Älter, aber effektiv\n- 60W reicht für Anfänger',
+                    tools: ['Feilen Set', 'Nagelhaut-Pusher', 'Zange', 'UV/LED-Lampe', 'Elektrofräser'],
+                    practice: 'Teste verschiedene Feilen. Lerne, welche Körnung für welchen Schritt beste ist. Übe mit LED-Lampe.',
+                    modul: 1
+                },
+                {
+                    id: 4,
+                    title: 'Produkte verstehen',
+                    content: 'Gele (Aufbaugel, Top Coat, Base Coat):\n- Base Coat: Haftgrund\n- Aufbaugel: Dicke aufbauen\n- Top Coat: Glanz & Schutz\n\nAcryl – Pulver und Flüssigkeit:\n- Chemische Reaktion\n- Keine Lampe nötig\n\nNagellacke – welche halten gut:\n- Gute Markenqualität wichtig\n- Base + Top Coat essentiell\n\nDesinfektionsmittel und Reinigung:\n- Alkohol 70%+\n- Alle Werkzeuge desinfizieren',
+                    tools: ['Gele', 'Nagellack', 'Base Coat', 'Top Coat', 'Desinfektionsmittel'],
+                    practice: 'Teste verschiedene Produkte. Notiere Haltbarkeit und Verarbeitung. Finde deine Lieblings-Marken.',
+                    modul: 1
+                },
+                {
+                    id: 5,
+                    title: 'Hygiene & Sauberkeit',
+                    content: 'Hände waschen vor jeder Kundin:\n- Mindestens 20 Sekunden mit Seife\n- Mit Nagelbürste unter Nägeln\n- Immer, keine Ausnahmen!\n\nWerkzeuge desinfizieren:\n- Nach jeder Kundin\n- 70% Alkohol sprühen\n- Trocknen lassen\n\nArbeitsbereich sauber halten:\n- Staub minimieren\n- Tische abwischen\n- Müll sofort entfernen\n\nSchmutz und Staub vermeiden:\n- Für Gelnägel kritisch\n- Kann zu Haftungsproblemen führen',
+                    tools: ['Alkohol', 'Handschuhe', 'Tücher', 'Nagelbürste', 'Desinfektionsspray'],
+                    practice: 'Erstelle eine Hygienecheck-Liste. Desinfiziere alle Werkzeuge. Übe Handwaschen mit Timer.',
+                    modul: 1
+                },
+                {
+                    id: 6,
+                    title: 'Nagel vorbereiten',
+                    content: 'Länge kürzen und feilen:\n- Mit Feile kürzen (nicht mit Zange)\n- Natürliche Form wahren\n\nNagelbett-Oberfläche vorbereiten:\n- Mit 180er Feile aufrauen\n- Glanz entfernen\n- Micro-Rauheit für Haftung\n\nNagelhaut zurückschieben:\n- Sanft mit Pusher\n- Nie schneiden!\n- Öl vorher auftragen hilft\n\nFett und Staub entfernen:\n- Mit Bürste abbürsten\n- Mit Tuch abwischen\n- Cleaner auftragen (falls Gel)',
+                    tools: ['Feile 180er', 'Nagelhaut-Pusher', 'Bürste', 'Cleaner', 'Tuch'],
+                    practice: 'Präpariere deine eigenen Nägel 5x. Achte auf perfekte Rauheit. Fühle die Unterschiede.',
+                    modul: 1
+                },
+                {
+                    id: 7,
+                    title: 'Natürliche Maniküre',
+                    content: 'Nägel formen und feilen:\n- Mit 240er Feile arbeiten\n- Sanfte, gleichmäßige Bewegungen\n- Sowohl Oberkante als auch Seitenkanten\n\nNagelhaut entfernen:\n- Mit Pusher zurückschieben\n- Nie schneiden (kann infizieren)\n- Mit Öl nachbehandeln\n\nNagel polieren:\n- Mit 400er Feile (oder Polierblock)\n- Für glatte, glänzende Oberfläche\n- Optional: Nagelhautöl auftragen\n\nHandcreme auftragen:\n- Finale Pflege\n- Kundin wird's lieben',
+                    tools: ['Feile 240er', 'Feile 400er', 'Nagelhaut-Pusher', 'Öl', 'Handcreme'],
+                    practice: 'Mache eine komplette Maniküre an dir selbst oder einer Freundin (ohne Lack). Übe 3x.',
+                    modul: 2
+                },
+                {
+                    id: 8,
+                    title: 'Nagellack auftragen',
+                    content: 'Base Coat – warum wichtig:\n- Verhindert Verfärbung\n- Bessere Haftung\n- Nagel-Schutz\n\nFarbe auftragen ohne Bläschen:\n- Dünn auftragen\n- 2-3 Schichten ideal\n- Zu dick = lange Trocknungszeit\n\nTop Coat für Glanz und Haltbarkeit:\n- Schützt Farbe\n- Gibt Glanz\n- Verlängert Haltbarkeit um 50%+\n\nTrocknungszeit beachten:\n- Normalerweise 5-10 Min\n- Mit Quick-Dry Spray schneller\n- NICHT pusten! (Bläschen entstehen)',
+                    tools: ['Base Coat', 'Farblack', 'Top Coat', 'Pinsel', 'Quick-Dry Spray'],
+                    practice: 'Lackiere 5 Personen. Übe, ohne Luftbläschen zu machen. Achte auf Trocknungszeit.',
+                    modul: 2
+                },
+                {
+                    id: 9,
+                    title: 'French Nails',
+                    content: 'Nagel vorbereiten:\n- Standard Maniküre durchführen\n- Base Coat auftragen\n\nWeiße Spitze malen oder mit Schablone:\n- Schablone = einfacher für Anfänger\n- Von Hand = braucht Übung\n- White Gel oder Lack verwenden\n\nNatürliche Farbe oder Rosa für den Nagel:\n- Klassisch: Rosa für Nagel, Weiß für Spitze\n- Modern: Nude, Beige auch schön\n\nPerfekte Linie ziehen:\n- Gerader Strich essentiell\n- Mit dünnem Pinsel oder Schablone\n- Saubere Kanten wichtig',
+                    tools: ['Schablone', 'White Gel/Lack', 'Rosa Gel/Lack', 'Dünner Pinsel', 'Base & Top Coat'],
+                    practice: 'Mache 10x French Nails. Erst mit Schablone (einfach), dann von Hand (schwer). Perfektioniere die Linien.',
+                    modul: 2
+                },
+                {
+                    id: 10,
+                    title: 'Gelnägel auf Naturnägeln',
+                    content: 'Nagel vorbereiten und aufrauen:\n- Mit 180er Feile aufrauen\n- Ganz wichtig für Haftung!\n\nBase Coat dünn auftragen:\n- Sehr dünn (nicht zu viel)\n- In Lampe aushärten (LED: 30-60 Sek)\n\nFarbgel gleichmäßig verteilen:\n- Nicht zu viel auftragen\n- Gleichmäßige Schicht\n- In Lampe aushärten\n\nUV/LED-Lampe – wie lange aushärten:\n- LED: 30-60 Sekunden\n- UV: 2-3 Minuten\n- Immer Anleitung beachten\n\nTop Coat auftragen:\n- Glanz und Schutz\n- In Lampe aushärten',
+                    tools: ['Feile 180er', 'Base Coat', 'Farbgel', 'Top Coat', 'LED-Lampe', 'Cleaner'],
+                    practice: 'Mache 5 Gelmaniküren an dir oder Freunden. Achte auf perfekte Haftung. Teste die Haltbarkeit.',
+                    modul: 3
+                },
+                {
+                    id: 11,
+                    title: 'Gelnägel entfernen',
+                    content: 'Aceton-Methode (einweichen lassen):\n- Die schonendste Methode\n- 10-15 Minuten in Aceton\n- Mit Alufolie abwickeln\n\nGel abheben ohne Naturnagel zu verletzen:\n- Sehr sanft mit Pusher\n- NICHT kratzen oder reißen\n- Geduld ist wichtig!\n\nNagel nach Entfernung pflegen:\n- Kann trocken sein\n- Mit Öl & Creme behandeln\n- 1-2 Wochen Pause vor neuem Gel ideal',
+                    tools: ['Aceton', 'Alufolie', 'Schälchen', 'Nagelhaut-Pusher', 'Öl'],
+                    practice: 'Entferne deine Gelnägel 2x mit Aceton-Methode. Lerne, wie sanft man sein muss.',
+                    modul: 3
+                },
+                {
+                    id: 12,
+                    title: 'Nagelverlängerung mit Gel',
+                    content: 'Schablone richtig anpassen:\n- Verschiedene Größen haben\n- Eng anpassen (kein Spalt!)\n\nBase Coat auftragen:\n- Auf Nagel und Schablone\n- Dünn, aber komplett\n\nGelnägel-Form bauen:\n- Nicht zu dick in erste Schicht\n- Mehrere dünne Schichten besser\n- In Lampe aushärten nach jeder Schicht\n\nSpitze definieren und formen:\n- Mit Aufbaugel arbeiten\n- C-Kurve aufbauen (Stabilität)\n- Länge festlegen\n\nAushärten und Schablone abnehmen:\n- Final in Lampe aushärten\n- Cleaner mit Tuch abwischen\n- Schablone sanft abnehmen\n- Nägel feilen & polieren',
+                    tools: ['Schablone', 'Base Coat', 'Aufbaugel', 'Feile 240er', 'Feile 400er', 'LED-Lampe', 'Cleaner'],
+                    practice: 'Baue 3 komplette Gelnägel-Verlängerungen auf. Achte auf stabile C-Kurve.',
+                    modul: 3
+                },
+                {
+                    id: 13,
+                    title: 'Gel-Modellage Techniken',
+                    content: 'Richtige Menge Gel pro Schicht:\n- Erbsengroße Menge ideal\n- Zu viel = Rand-Ausbruch\n- Zu wenig = dünne Nägel\n\nGlatte Flächen ohne Beulen:\n- Mit Pinsel glätten\n- Mehrere dünne Schichten\n- Nicht zu dick auf einmal\n\nArchitektur aufbauen (Wölbung):\n- Nagelmitte höher als Ränder\n- Gibt Stabilität\n- C-Kurve für Schönheit\n- Mit jeder Schicht aufbauen\n\nFeilen zur perfekten Form:\n- Mit 240er Feile arbeiten\n- Für finale Form\n- Mit 400er polieren\n- Saubere Kanten sind wichtig',
+                    tools: ['Aufbaugel', 'Pinsel', 'Feile 240er', 'Feile 400er', 'LED-Lampe'],
+                    practice: 'Übe die perfekte Gel-Form an 5 Modellen. Arbeite an deiner C-Kurve.',
+                    modul: 3
+                },
+                {
+                    id: 14,
+                    title: 'Gelnägel-Refill',
+                    content: 'Neues Wachstum an der Nagelbasis erkennen:\n- Nach 2-4 Wochen sichtbar\n- Naturnagel zwischen Nagelbett und Gel\n\nAlt-Gel aufrauen:\n- Mit 180er Feile\n- Oberfläche muss rau sein\n\nNeues Gel in Wachstums-Zone auftragen:\n- Neue Base Coat nur in Wachstums-Bereich\n- Mit Farb- & Top Coat fertig machen\n\nGanze Form nacharbeiten:\n- Nägel nochmal feilen\n- Länge prüfen & anpassen\n- Polieren für Glanz',
+                    tools: ['Feile 180er', 'Base Coat', 'Farbgel', 'Top Coat', 'LED-Lampe'],
+                    practice: 'Mache 3 Refills. Lerne, nur in der Wachstums-Zone zu arbeiten.',
+                    modul: 3
+                },
+                {
+                    id: 15,
+                    title: 'Probleme beim Gelnagelanbau',
+                    content: 'Blasenbildung vermeiden:\n- Ausreichend Nagel-Prep\n- Nicht zu viel Gel auf einmal\n- Air-Bubbles = Haftungsproblem\n\nZu dicke oder dünne Schichten:\n- Mehrere dünne > eine dicke\n- Kontrollieren mit Auge\n- Mit Erfahrung besser\n\nHaftung verbessern:\n- Immer aufrauen (180er Feile)\n- Base Coat wirklich dünn\n- Cleaner nach jedem Aushärten\n- Nagelbett muss trocken sein\n\nNägel bei Problemen reparieren:\n- Kleine Risse: Gel einfügen & aushärten\n- Großer Bruch: Kompletter Neubau\n- Finger hochnehmen (Pause)\n- Dann neu starten',
+                    tools: ['Feile 180er', 'Base Coat', 'Aufbaugel', 'Cleaner', 'LED-Lampe', 'Pinsel'],
+                    practice: 'Repariere absichtlich Fehler. Lerne, Probleme zu beheben.',
+                    modul: 3
+                },
+                {
+                    id: 16,
+                    title: 'Acryl-Grundlagen',
+                    content: 'Pulver und Flüssigkeit mischen:\n- Richtige Verhältnisse wichtig\n- Anleitung beachten\n\nRichtige Konsistenz finden:\n- Nicht zu flüssig\n- Nicht zu dicke/krümelig\n- "Zuckrige" Konsistenz ideal\n\nMit dem Pinsel arbeiten:\n- Acryl-Pinsel verwenden (nicht Gel-Pinsel!)\n- In Flüssigkeit tauchen\n- Dann Pulver aufnehmen\n- Schnell arbeiten (härtet aus)\n\nErste Schicht auftragen:\n- Dünn auftragen\n- Auf Nagel oder Tipp\n- Sofort formen (mit Nadel/Stift)',
+                    tools: ['Acryl-Pulver', 'Acryl-Flüssigkeit', 'Acryl-Pinsel', 'Schälchen', 'Nagel-Tipp'],
+                    practice: 'Mische Acryl 5x. Übe die richtige Konsistenz.',
+                    modul: 4
+                },
+                {
+                    id: 17,
+                    title: 'Acrylnägel formen',
+                    content: 'Kugel formen (für Volumen):\n- Schichten aufbauen\n- Mit Pinsel in Form drücken\n- Schnell muss man sein\n\nMit Schablone arbeiten:\n- Für Anfänger leichter\n- Hilft beim geraden Wachstum\n\nLänge und Form kontrollieren:\n- Mit Schablone oder Referenz\n- Symmetrie wichtig\n\nFeilen zur Perfektion:\n- Mit 180er Feile Form feilen\n- Mit 240er & 400er verfeinern\n- Polieren für Glanz',
+                    tools: ['Acryl', 'Acryl-Pinsel', 'Feile 180er', 'Feile 240er', 'Feile 400er'],
+                    practice: 'Baue 3 Acryl-Nägel. Übe die Form.',
+                    modul: 4
+                },
+                {
+                    id: 18,
+                    title: 'Acryl-Entfernung & Reparatur',
+                    content: 'Acryl abbimsen ohne Naturnagel zu verletzen:\n- Mit grobem Schliff starten (180er)\n- Schichtweise runter feilen\n- NICHT kratzen oder reißen\n- Geduld ist wichtig\n\nSchnelle Reparaturen:\n- Bei kleinen Brüchen: Acryl neu auftragen\n- Schnell arbeiten\n- Mit Feile formen\n\nKleine Bruchstellen flicken:\n- Acryl auftragen\n- Mit Pinsel formen\n- Sofort aushärten lassen\n- Feilen & polieren',
+                    tools: ['Feile 180er', 'Feile 240er', 'Acryl', 'Acryl-Pinsel', 'Feile 400er'],
+                    practice: 'Entferne 2x Acryl-Nägel sauber. Repariere absichtliche Brüche.',
+                    modul: 4
+                },
+                {
+                    id: 19,
+                    title: 'Einfache Nail-Art von Hand',
+                    content: 'Mit Pinsel malen – gerade Linien:\n- Dünner Pinsel verwenden\n- Mit Unterarm stützen (nicht nur Finger)\n- Üben, üben, üben!\n- Gleichmäßige Bewegungen\n\nPunkte setzen:\n- Mit Dotting-Tool oder Pinselende\n- Verschiedene Größen möglich\n\nKleine Muster:\n- Punkte + Linien = Basis\n- Einfache Muster zuerst\n\nRegelmäßig üben:\n- Jeden Tag 10-15 Min ideal\n- Papier vor echten Nägeln üben\n- Mit Zeit kommt Sicherheit',
+                    tools: ['Nail-Art Pinsel (dünn)', 'Dotting-Tool', 'Nagellack verschiedene Farben', 'Papier zum Üben'],
+                    practice: 'Übe täglich 15 Min. Zeichne Linien, Punkte, einfache Muster. Am Tag 1 pro Woche auf echtem Nagel.',
+                    modul: 5
+                },
+                {
+                    id: 20,
+                    title: 'Farben mischen & Farbverläufe',
+                    content: 'Ombré-Effekt (Farbübergang):\n- 2 oder mehr Farben\n- Sanfter Übergang\n- Mit Schwamm auftupfen\n\nZwei oder mehr Farben kombinieren:\n- Farbtheorie beachten\n- Harmonische Kombinationen\n- Kontrastfarben auch schön\n\nÜbergänge sanft gestalten:\n- Mit Schwämmchen tupfen (nicht streichen)\n- Mehrmals tupfen = sanfter Übergang\n- Verschiedene Farbtöne verwenden',
+                    tools: ['Nagellack 2-3 verschiedene Farben', 'Schwamm oder Schwämmchen', 'Pinsel'],
+                    practice: 'Mache 5 Ombré-Verläufe. Übe verschiedene Farbkombinationen.',
+                    modul: 5
+                },
+                {
+                    id: 21,
+                    title: 'Stamping & Stempel-Techniken',
+                    content: 'Stamper und Schaber verwenden:\n- Richtige Technik wichtig\n- Mit Druck auf Platte drücken\n- Schaber in schärfem Winkel halten\n\nBilder von Platte auf Nagel:\n- Schnell arbeiten (bevor Farbe trocknet)\n- Mit Druck auf Nagel pressen\n- Gerade drücken (nicht schieben)\n\nGroße Designs schnell machen:\n- Stamping spart Zeit\n- Professionelle Muster\n- Anfänger werden schnell gut',
+                    tools: ['Stamper', 'Schaber', 'Stamping-Platten', 'Stamping-Nagellack'],
+                    practice: 'Übe Stamping 5x. Verschiedene Designs probieren.',
+                    modul: 5
+                },
+                {
+                    id: 22,
+                    title: 'Spezial-Effekte',
+                    content: 'Chrome/Mirror-Puder (schimmernde Nägel):\n- Auf klebrigem Top Coat auftragen\n- Mit Schwamm oder Pinsel auftupfen\n- Wow-Effekt garantiert!\n\nGlitter einarbeiten:\n- In Gel oder Lack mischen\n- Oder obendrauf streuen\n- Mit Top Coat fixieren\n\nFolie und kleine Deko auflegen:\n- Mit UV-Kleber befestigen\n- Kleine Stücke sind eleganter\n- Nicht zu viel!\n\nCat-Eye Effekt (magnetische Gele):\n- Mit Magnet-Stab über Gel fahren\n- Effekt entsteht durch Eisenoxide\n- Sehr beeindruckend',
+                    tools: ['Chrome-Puder', 'Magnetische Gele', 'Magnet-Stab', 'Glitter', 'Folie', 'UV-Kleber', 'Schwamm'],
+                    practice: 'Teste jeden Effect einmal. Chrome, Glitter, Folie, Magnet-Effekt.',
+                    modul: 5
+                },
+                {
+                    id: 23,
+                    title: '3D-Designs & Dekoration',
+                    content: 'Strasssteine und Schmuck kleben:\n- Mit UV-Kleber oder Gel-Kleber\n- Fest drücken\n- Trocknen/Aushärten lassen\n\nKleine Strukturen mit Gel aufbauen:\n- 3D-Blüten, Bows, etc.\n- Mit Pinsel oder Zahnstocher formen\n\nNicht zu schwer machen:\n- Bricht sonst leicht\n- Zu schwer = Nagel-Probleme\n- Weniger ist mehr\n\nHaltbarkeit prüfen:\n- Nach 1 Woche testen\n- Könnte abfallen\n- Befestigung verstärken wenn nötig',
+                    tools: ['Strasssteine', 'UV-Kleber', 'Gel', 'Pinsel', 'Zahnstocher'],
+                    practice: 'Mache 3 3D-Designs. Teste Haltbarkeit.',
+                    modul: 5
+                },
+                {
+                    id: 24,
+                    title: 'Beliebte Designs zum Nachmachen',
+                    content: 'Französisch-klassisch:\n- Weiß + Nude/Rosa\n- Zeitlos, elegant\n- Immer gefragt\n\nNude mit Akzent:\n- Ein Nagel anders\n- Oft mit Glitter oder Stein\n- Subtle & schön\n\nSternchen und kleine Muster:\n- Einfach, aber effektiv\n- Mit Stamping schnell gemacht\n\nTrends von Instagram/TikTok:\n- Regelmäßig neue Trends\n- Deine Inspiration\n- Aber auch zeitlose Klassiker nicht vergessen',
+                    tools: ['Nagellack', 'Stamper', 'Strasssteine', 'Pinsel'],
+                    practice: 'Kopiere 5 Designs von Instagram. Mache sie nachher eigener.',
+                    modul: 5
+                },
+                {
+                    id: 25,
+                    title: 'Design-Inspirationen sammeln',
+                    content: 'Bilder anschauen und analysieren:\n- Was gefällt dir?\n- Welche Farben?\n- Welche Muster?\n\nFarben und Muster kombinieren:\n- Deine eigene Kreativität\n- Nicht nur kopieren\n- Variation ist wichtig\n\nVon einfach zu kompliziert üben:\n- Basis-Techniken zuerst\n- Mit Zeit immer besser\n- Fortschritt kommt sicher',
+                    tools: ['Pinterest', 'Instagram', 'Inspiration-Board', 'Farbpaletten'],
+                    practice: 'Sammle 50+ Design-Inspirationen. Erstelle dein Inspiration-Board.',
+                    modul: 5
+                },
+                {
+                    id: 26,
+                    title: 'Fehlerbehebeung im Prozess',
+                    content: 'Gel läuft unter die Schablone – was tun:\n- Mit Pusher sofort entfernen\n- Bevor es aushärtet\n- Zu später: Erneut präparieren\n\nNagel bricht während Modellage:\n- Mit Schablone reparieren\n- Neue Schichten aufbauen\n- Oder komplett neu starten\n\nOberfläche zu raue oder zu glatt:\n- Zu rau: Mit 400er Feile glätten\n- Zu glatt: Mit 180er Feile aufrauen\n\nSchnelle Reparaturen:\n- Immer möglich\n- Mit Ruhe und Geduld\n- Kundin wird's verstehen',
+                    tools: ['Feile 180er', 'Feile 400er', 'Pusher', 'Gel', 'Schablone'],
+                    practice: 'Verursache absichtlich Fehler und repariere sie.',
+                    modul: 6
+                },
+                {
+                    id: 27,
+                    title: 'Haltbarkeit verlängern',
+                    content: 'Tipps für Kundinnen, dass Nägel länger halten:\n- Hände regelmäßig einölen\n- Feuchtigkeitscreme verwenden\n- UV-Schutz (für in der Sonne)\n\nWas Freundinnen nicht tun sollten:\n- Nägel nicht als Werkzeug nutzen\n- Nicht reißen/abmachen versuchen\n- Keine aggressiven Chemikalien\n\nErste Woche nach dem Anbau:\n- Nägel nicht zu stark belasten\n- Vorsicht mit Wasser\n- Ganz vorsichtig sein\n\nRegelmäßige Pflege:\n- Mit Refills = sehr lange haltbar\n- Alle 4-6 Wochen Refill\n- So hält es Monate',
+                    tools: ['Öl', 'Handcreme', 'UV-Schutz'],
+                    practice: 'Schreibe eine Pflege-Anleitung für deine Kundinnen.',
+                    modul: 6
+                },
+                {
+                    id: 28,
+                    title: 'Deine erste Kundin',
+                    content: 'Ruhe bewahren:\n- Du schaffst das!\n- Nervosität ist normal\n- Mit Erfahrung wird\'s einfacher\n\nHygiene ist Pflicht:\n- 2x mal wichtiger als sonst\n- Alles desinfiziert?\n- Hände gewaschen?\n\nRealistische Erwartungen setzen:\n- Erste Nägel sind nicht perfekt\n- Mit Zeit wird\'s besser\n- Kundin wird verstehen\n\nWas schiefgehen kann und wie man es löst:\n- Kleine Fehler: Normal!\n- Reparieren und weitermachen\n- Kommunikation ist wichtig\n\nFeedback einholen und lernen:\n- Was könnte besser sein?\n- Deine Kundin wird helfen\n- Kontinuierliche Verbesserung',
+                    tools: ['Alle bisherigen Tools + Ruhe & Geduld'],
+                    practice: 'Mache deine erste komplette Behandlung. Dokumentiere und reflektiere danach.',
+                    modul: 6
+                }
+            ];
+
+            const moduleMap = {
+                1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1,
+                7: 2, 8: 2, 9: 2,
+                10: 3, 11: 3, 12: 3, 13: 3, 14: 3, 15: 3,
+                16: 4, 17: 4, 18: 4,
+                19: 5, 20: 5, 21: 5, 22: 5, 23: 5, 24: 5, 25: 5,
+                26: 6, 27: 6, 28: 6
+            };
+
+            const moduleNames = {
+                1: 'MODUL 1: GRUNDLAGEN',
+                2: 'MODUL 2: KLASSISCHE MANIKÜRE',
+                3: 'MODUL 3: GELNÄGEL LERNEN',
+                4: 'MODUL 4: ACRYLNÄGEL',
+                5: 'MODUL 5: DESIGNS & NAIL-ART',
+                6: 'MODUL 6: PRAKTISCHE TIPPS & HÄUFIGE FEHLER'
+            };
+
+            // Laden / Speichern
+            useEffect(() => {
+                const saved = localStorage.getItem('nagelkurs');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    setUser(data.user);
+                    setCompletedChapters(data.completedChapters || []);
+                    setCompletedModules(data.completedModules || []);
+                }
+            }, []);
+
+            useEffect(() => {
+                if (user) {
+                    localStorage.setItem('nagelkurs', JSON.stringify({
+                        user,
+                        completedChapters,
+                        completedModules
+                    }));
+                }
+            }, [user, completedChapters, completedModules]);
+
+            const handleRegistration = (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                setUser({
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    email: formData.get('email')
+                });
+                setShowCoach(false);
+            };
+
+            const handleQuizSubmit = () => {
+                let correct = 0;
+                quizQuestions[currentChapter].forEach((q, idx) => {
+                    if (quizAnswers[idx] === q.correct) correct++;
+                });
+                const score = Math.round((correct / quizQuestions[currentChapter].length) * 100);
+                setQuizScore(score);
+                setQuizSubmitted(true);
+
+                if (score >= 70) {
+                    if (!completedChapters.includes(currentChapter)) {
+                        setCompletedChapters([...completedChapters, currentChapter]);
+                    }
+
+                    const moduleNum = moduleMap[currentChapter];
+                    const moduleChapters = Object.keys(moduleMap).filter(k => moduleMap[k] === moduleNum).map(Number);
+                    const allModuleChaptersCompleted = moduleChapters.every(ch => completedChapters.includes(ch) || ch === currentChapter);
+                    
+                    if (allModuleChaptersCompleted && !completedModules.includes(moduleNum)) {
+                        setTimeout(() => {
+                            setShowModuleCertificate(true);
+                            setCompletedModules([...completedModules, moduleNum]);
+                        }, 1000);
+                    }
+                }
+            };
+
+            const generateModuleCertificate = (moduleNum) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1200;
+                canvas.height = 800;
+                const ctx = canvas.getContext('2d');
+
+                const gradient = ctx.createLinearGradient(0, 0, 1200, 800);
+                gradient.addColorStop(0, '#ffe8d6');
+                gradient.addColorStop(1, '#d4a574');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 1200, 800);
+
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 8;
+                ctx.strokeRect(40, 40, 1120, 720);
+
+                ctx.strokeStyle = '#8b7355';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(55, 55, 1090, 690);
+
+                ctx.font = 'bold 48px serif';
+                ctx.fillStyle = '#4a3728';
+                ctx.textAlign = 'center';
+                ctx.fillText('✨ MODUL ABGESCHLOSSEN ✨', 600, 130);
+
+                ctx.font = 'bold 32px serif';
+                ctx.fillStyle = '#d4a574';
+                ctx.fillText(moduleNames[moduleNum], 600, 200);
+
+                ctx.font = '20px Georgia, serif';
+                ctx.fillStyle = '#4a3728';
+                ctx.fillText('Herzlichen Glückwunsch an', 600, 300);
+
+                ctx.font = 'bold 38px serif';
+                ctx.fillText(`${user.firstName} ${user.lastName}`, 600, 370);
+
+                ctx.font = '16px Georgia, serif';
+                ctx.fillStyle = '#4a3728';
+                ctx.fillText('für den erfolgreichen Abschluss dieses Moduls!', 600, 430);
+
+                ctx.font = '14px Georgia, serif';
+                ctx.fillStyle = '#8b7355';
+                ctx.fillText(`Alle Kapitel gemeistert • Alle Quiz bestanden`, 600, 480);
+                ctx.fillText('Ausgestellt: ' + new Date().toLocaleDateString('de-DE'), 600, 650);
+
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Modul_${moduleNum}_Zertifikat_${user.firstName}_${user.lastName}.png`;
+                    a.click();
+                });
+            };
+
+            const generateFinalCertificate = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1400;
+                canvas.height = 900;
+                const ctx = canvas.getContext('2d');
+
+                const gradient = ctx.createLinearGradient(0, 0, 1400, 900);
+                gradient.addColorStop(0, '#faf8f5');
+                gradient.addColorStop(0.5, '#e8dcc8');
+                gradient.addColorStop(1, '#d4a574');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 1400, 900);
+
+                ctx.strokeStyle = '#8b7355';
+                ctx.lineWidth = 10;
+                ctx.strokeRect(30, 30, 1340, 840);
+                ctx.strokeRect(60, 60, 1280, 780);
+
+                ctx.fillStyle = '#d4a574';
+                [[80, 80], [1320, 80], [80, 820], [1320, 820]].forEach(([x, y]) => {
+                    ctx.beginPath();
+                    ctx.arc(x, y, 25, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                ctx.font = 'bold 72px serif';
+                ctx.fillStyle = '#4a3728';
+                ctx.textAlign = 'center';
+                ctx.fillText('🎓 ZERTIFIKAT 🎓', 700, 120);
+
+                ctx.font = 'italic 28px serif';
+                ctx.fillStyle = '#8b7355';
+                ctx.fillText('Der erfolgreiche Abschluss', 700, 180);
+
+                ctx.font = 'bold 52px serif';
+                ctx.fillStyle = '#d4a574';
+                ctx.fillText(`${user.firstName} ${user.lastName}`, 700, 310);
+
+                ctx.font = '20px Georgia, serif';
+                ctx.fillStyle = '#4a3728';
+                ctx.fillText('wird hiermit beglaubigt, dass diese Person', 700, 380);
+                ctx.fillText('den', 700, 420);
+
+                ctx.font = 'bold 28px serif';
+                ctx.fillStyle = '#d4a574';
+                ctx.fillText('NAGELDESIGN-PRAKTISCHEN-KURS', 700, 470);
+
+                ctx.font = '20px Georgia, serif';
+                ctx.fillStyle = '#4a3728';
+                ctx.fillText('erfolgreich abgeschlossen hat mit:', 700, 520);
+
+                ctx.font = '18px Georgia, serif';
+                ctx.fillStyle = '#8b7355';
+                ctx.fillText('✓ Alle 28 Kapitel abgeschlossen', 700, 580);
+                ctx.fillText('✓ Alle 6 Module meistert', 700, 620);
+                ctx.fillText('✓ Alle Quiz-Fragen beantwortet', 700, 660);
+
+                ctx.font = '16px Georgia, serif';
+                ctx.fillStyle = '#8b7355';
+                ctx.fillText('Ausgestellt am: ' + new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' }), 700, 750);
+                ctx.fillText('Dein Online Nageldesign-Coach', 700, 800);
+
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Nageldesign_Zertifikat_${user.firstName}_${user.lastName}_Final.png`;
+                    a.click();
+                });
+            };
+
+            const isCoursComplete = completedChapters.length === 28;
+            const currentChapterData = kapitelInhalt.find(k => k.id === currentChapter) || null;
+            const progressPercent = Math.round((completedChapters.length / 28) * 100);
+
+            return (
+                <div className="container">
+                    <div className="header">
+                        <h1>💅 NAGELDESIGN-KURS</h1>
+                        <p>Lerne professionelles Nageldesign – Von Anfänger bis Profi</p>
+                    </div>
+
+                    {/* REGISTRIERUNG */}
+                    {!user && (
+                        <>
+                            {showCoach && (
+                                <div className="coach-section">
+                                    <div className="coach-icon">👋</div>
+                                    <div className="coach-message">
+                                        Willkommen! Ich bin dein Online-Coach für professionelles Nageldesign. Lass uns gemeinsam deine Reise starten! 🎨✨
+                                    </div>
+                                    <button className="voice-btn" onClick={() => {
+                                        const utterance = new SpeechSynthesisUtterance('Willkommen! Ich bin dein Online-Coach für professionelles Nageldesign. Lass uns gemeinsam deine Reise starten!');
+                                        utterance.lang = 'de-DE';
+                                        window.speechSynthesis.speak(utterance);
+                                    }}>🔊 Stimme anhören</button>
+                                    <button className="voice-btn" onClick={() => setShowCoach(false)}>➡️ Weiter</button>
+                                </div>
+                            )}
+
+                            {!showCoach && (
+                                <div className="registration-form">
+                                    <h2 style={{ marginBottom: '20px', color: '#4a3728' }}>Lass mich dich kennen! 👋</h2>
+                                    <form onSubmit={handleRegistration}>
+                                        <div className="form-group">
+                                            <label>Vorname *</label>
+                                            <input type="text" name="firstName" required placeholder="z.B. Luisa" />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Nachname *</label>
+                                            <input type="text" name="lastName" required placeholder="z.B. Schmidt" />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>E-Mail *</label>
+                                            <input type="email" name="email" required placeholder="deine@email.com" />
+                                        </div>
+                                        <button type="submit" className="btn">✓ Kurs starten!</button>
+                                    </form>
+                                </div>
+                            )}
+                        </>
+                    )}
+
+                    {/* DASHBOARD */}
+                    {user && !isCoursComplete && !showModuleCertificate && !currentChapterData && (
+                        <>
+                            <div className="progress-section">
+                                <h3>📊 Dein Fortschritt</h3>
+                                <div className="stats">
+                                    <div className="stat-item">
+                                        <div className="stat-number">{completedChapters.length}</div>
+                                        <div className="stat-label">Kapitel abgeschlossen</div>
+                                    </div>
+                                    <div className="stat-item">
+                                        <div className="stat-number">{completedModules.length}</div>
+                                        <div className="stat-label">Module abgeschlossen</div>
+                                    </div>
+                                    <div className="stat-item">
+                                        <div className="stat-number">{progressPercent}%</div>
+                                        <div className="stat-label">Kurs-Fortschritt</div>
+                                    </div>
+                                </div>
+                                <div className="progress-bar">
+                                    <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
+                                </div>
+                            </div>
+
+                            <div style={{ marginBottom: '20px' }}>
+                                <h2 style={{ color: '#4a3728', fontSize: '24px', marginBottom: '20px' }}>Willkommen, {user.firstName}! 👋</h2>
+                                <p style={{ color: '#8b7355', fontSize: '16px' }}>Hier sind alle 6 Module mit je mehreren Kapiteln. Klicke auf ein Kapitel, um zu starten!</p>
+                            </div>
+
+                            <div className="dashboard">
+                                {Object.entries(moduleNames).map(([moduleNum, moduleName]) => {
+                                    const moduleChapters = Object.keys(moduleMap)
+                                        .filter(k => moduleMap[k] === parseInt(moduleNum))
+                                        .map(k => parseInt(k))
+                                        .sort((a, b) => a - b);
+
+                                    const completedInModule = moduleChapters.filter(ch => completedChapters.includes(ch)).length;
+
+                                    return (
+                                        <div key={moduleNum} className="module-card">
+                                            <h3>{moduleName}</h3>
+                                            <div className="chapters-list">
+                                                {moduleChapters.map(ch => (
+                                                    <div
+                                                        key={ch}
+                                                        className={`chapter-item ${completedChapters.includes(ch) ? 'completed' : ''}`}
+                                                        onClick={() => setCurrentChapter(ch)}
+                                                    >
+                                                        {completedChapters.includes(ch) ? '✅' : '•'} Kap. {ch}: {kapitelInhalt.find(k => k.id === ch)?.title}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="progress-bar">
+                                                <div className="progress-fill" style={{ width: `${(completedInModule / moduleChapters.length) * 100}%` }}></div>
+                                            </div>
+                                            <p style={{ fontSize: '12px', color: '#8b7355', marginTop: '10px' }}>
+                                                {completedInModule}/{moduleChapters.length} abgeschlossen
+                                            </p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </>
+                    )}
+
+                    {/* KAPITEL ANSICHT */}
+                    {user && currentChapterData && !showQuiz && !showModuleCertificate && (
+                        <div className="chapter-content">
+                            <div className="chapter-header">
+                                <p style={{ margin: '0 0 10px 0', fontSize: '12px', color: '#8b7355', fontWeight: '500', letterSpacing: '1px' }}>KAPITEL {currentChapterData.id} • {moduleNames[moduleMap[currentChapterData.id]]}</p>
+                                <h2>{currentChapterData.title}</h2>
+                            </div>
+
+                            <div>
+                                <div className="section-title">📚 LERNINHALTE:</div>
+                                <div className="content-box">{currentChapterData.content}</div>
+
+                                <div className="section-title">🔧 WERKZEUGE & MATERIALIEN:</div>
+                                <div className="tools-list">
+                                    {currentChapterData.tools.map((tool, idx) => (
+                                        <span key={idx} className="tool-tag">{tool}</span>
+                                    ))}
+                                </div>
+
+                                <div className="section-title">💪 PRAKTISCHE ÜBUNG:</div>
+                                <div className="practice-box">{currentChapterData.practice}</div>
+
+                                <button
+                                    onClick={() => setShowQuiz(true)}
+                                    className="btn"
+                                    style={{ marginBottom: '12px', marginTop: '20px' }}
+                                >
+                                    📝 Quiz starten (Kapitel {currentChapterData.id})
+                                </button>
+
+                                <button
+                                    onClick={() => setCurrentChapter(0)}
+                                    className="btn"
+                                    style={{ background: '#8b7355', marginBottom: '12px' }}
+                                >
+                                    ← Zurück zum Dashboard
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* QUIZ */}
+                    {showQuiz && quizQuestions[currentChapter] && user && (
+                        <div className="quiz-container">
+                            <h2 style={{ marginBottom: '30px', color: '#4a3728' }}>📝 Quiz - Kapitel {currentChapter}</h2>
+
+                            {!quizSubmitted ? (
+                                <>
+                                    {quizQuestions[currentChapter].map((q, idx) => (
+                                        <div key={idx} className="quiz-question">
+                                            <div className="question-text">Frage {idx + 1}: {q.question}</div>
+                                            <div className="answer-option">
+                                                {q.answers.map((answer, ansIdx) => (
+                                                    <div key={ansIdx}>
+                                                        <input
+                                                            type="radio"
+                                                            id={`q${idx}a${ansIdx}`}
+                                                            name={`q${idx}`}
+                                                            checked={quizAnswers[idx] === ansIdx}
+                                                            onChange={() => setQuizAnswers({ ...quizAnswers, [idx]: ansIdx })}
+                                                        />
+                                                        <label htmlFor={`q${idx}a${ansIdx}`}>{answer}</label>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                    <button
+                                        onClick={handleQuizSubmit}
+                                        disabled={Object.keys(quizAnswers).length < quizQuestions[currentChapter].length}
+                                        className="btn"
+                                        style={{ marginBottom: '20px' }}
+                                    >
+                                        ✓ Quiz abgeben
+                                    </button>
+                                </>
+                            ) : (
+                                <div>
+                                    <div className={`quiz-result ${quizScore >= 70 ? 'passed' : 'failed'}`}>
+                                        <h3>{quizScore >= 70 ? '🎉 Bestanden!' : '❌ Nicht bestanden'}</h3>
+                                        <p>Dein Score: {quizScore}%</p>
+                                        <p style={{ fontSize: '14px', marginTop: '10px' }}>Mindestens 70% notwendig</p>
+                                    </div>
+
+                                    {quizScore >= 70 && (
+                                        <>
+                                            <button
+                                                onClick={() => setShowQuiz(false)}
+                                                className="btn"
+                                                style={{ marginTop: '20px', marginBottom: '12px' }}
+                                            >
+                                                ✓ Weiter zum nächsten Kapitel
+                                            </button>
+                                            <button
+                                                onClick={() => setCurrentChapter(0)}
+                                                className="btn"
+                                                style={{ background: '#8b7355' }}
+                                            >
+                                                ← Zurück zum Dashboard
+                                            </button>
+                                        </>
+                                    )}
+
+                                    {quizScore < 70 && (
+                                        <button
+                                            onClick={() => {
+                                                setQuizSubmitted(false);
+                                                setQuizAnswers({});
+                                            }}
+                                            className="btn"
+                                            style={{ marginTop: '20px' }}
+                                        >
+                                            🔄 Quiz erneut versuchen
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* MODUL ZERTIFIKAT */}
+                    {showModuleCertificate && user && (
+                        <div className="certificate-box">
+                            <h2>🎉 Modul abgeschlossen!</h2>
+                            <p>Du hast {moduleNames[moduleMap[currentChapter]]} erfolgreich abgeschlossen!</p>
+                            <button
+                                onClick={() => generateModuleCertificate(moduleMap[currentChapter])}
+                                className="btn"
+                                style={{ width: 'auto', marginRight: '10px', marginBottom: '10px' }}
+                            >
+                                ⬇️ Zertifikat herunterladen
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowModuleCertificate(false);
+                                    setCurrentChapter(0);
+                                }}
+                                className="btn"
+                                style={{ width: 'auto', background: '#8b7355' }}
+                            >
+                                ➡️ Nächstes Modul
+                            </button>
+                        </div>
+                    )}
+
+                    {/* KURS ABGESCHLOSSEN */}
+                    {isCoursComplete && !showModuleCertificate && user && (
+                        <div className="course-complete">
+                            <h1>🏆 GLÜCKWUNSCH! 🏆</h1>
+                            <h2>Du hast den kompletten Kurs abgeschlossen!</h2>
+                            <p>
+                                Du hast alle 28 Kapitel gemeistert, alle 6 Module abgeschlossen und bewiesen, dass du bereit bist, professionelle Nageldesigns zu kreieren! 🎨✨
+                            </p>
+                            <div className="btn-group">
+                                <button
+                                    onClick={generateFinalCertificate}
+                                    className="btn"
+                                    style={{ width: 'auto' }}
+                                >
+                                    📜 Finales Zertifikat herunterladen
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setUser(null);
+                                        setCompletedChapters([]);
+                                        setCompletedModules([]);
+                                        setShowCoach(true);
+                                        localStorage.removeItem('nagelkurs');
+                                    }}
+                                    className="btn-secondary"
+                                >
+                                    🔄 Neu anmelden
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<NageldesignKurs />);
+    </script>
+</body>
+</html>
