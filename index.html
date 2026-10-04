@@ -653,6 +653,83 @@
 				padding: 3rem 1.5rem 2rem;
 			}
 		}
+
+		/* CLAUDE HELP BUTTON */
+		.claude-help {
+			position: fixed;
+			right: 1.5rem;
+			bottom: 1.5rem;
+			z-index: 200;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			gap: 0.75rem;
+		}
+
+		.claude-help-btn {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			padding: 0.85rem 1.3rem;
+			border-radius: 50px;
+			background: linear-gradient(135deg, var(--gold), var(--pink));
+			color: var(--dark);
+			text-decoration: none;
+			font-size: 0.9rem;
+			font-weight: 600;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		.claude-help-btn:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+		}
+
+		.claude-help-btn svg {
+			width: 1.2rem;
+			height: 1.2rem;
+			flex-shrink: 0;
+		}
+
+		.claude-help-prompt {
+			display: none;
+			max-width: 280px;
+			padding: 1rem 1.1rem;
+			border-radius: 16px;
+			background: var(--white);
+			border: 1px solid var(--border);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+		}
+
+		.claude-help-prompt.open {
+			display: block;
+		}
+
+		.claude-help-prompt p {
+			font-size: 0.78rem;
+			color: var(--text-light);
+			margin: 0 0 0.5rem;
+		}
+
+		.claude-help-text {
+			display: block;
+			width: 100%;
+			text-align: left;
+			font-family: inherit;
+			font-size: 0.85rem;
+			color: var(--dark);
+			background: var(--lavender);
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 0.6rem 0.7rem;
+			cursor: pointer;
+			line-height: 1.5;
+		}
+
+		.claude-help-hint {
+			margin-top: 0.5rem !important;
+		}
 	</style>
 </head>
 <body>
@@ -779,6 +856,20 @@
 	<footer>
 		<p>Louisa's Nageldesign-Kurs • Professionelle Ausbildung mit Video-Tutorials • Strukturiertes Lernen von Grund auf</p>
 	</footer>
+
+	<div class="claude-help">
+		<a class="claude-help-btn" href="https://claude.ai/new" target="_blank" rel="noopener" id="claudeHelpLink">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+				<path d="M8 10.5h.01M12 10.5h.01M16 10.5h.01M20 12c0 4.418-3.582 8-8 8-1.06 0-2.07-.207-2.995-.583L4 20l1.395-3.72C4.507 15.15 4 13.63 4 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"/>
+			</svg>
+			<span>Hilfe von Claude</span>
+		</a>
+		<div class="claude-help-prompt" id="claudeHelpPrompt">
+			<p>Vorgeschlagene Frage (antippen zum Kopieren):</p>
+			<button type="button" class="claude-help-text" id="claudeHelpCopy">Ich brauche Hilfe mit meinem Nageldesign-Kurs auf dieser Seite. Frage: </button>
+			<p class="claude-help-hint" id="claudeHelpHint">In den geöffneten Chat einfügen und deine Frage ergänzen.</p>
+		</div>
+	</div>
 
 	<script>
 		const coursesData = [
@@ -1541,6 +1632,26 @@
 		}
 
 		window.addEventListener('scroll', updateProgress);
+
+		// Claude-Hilfe-Button: Prompt-Vorschlag ein-/ausblenden + kopieren
+		const claudeLink = document.getElementById('claudeHelpLink');
+		const claudePrompt = document.getElementById('claudeHelpPrompt');
+		const claudeCopy = document.getElementById('claudeHelpCopy');
+		const claudeHint = document.getElementById('claudeHelpHint');
+
+		claudeLink.addEventListener('click', () => {
+			claudePrompt.classList.add('open');
+		});
+
+		claudeCopy.addEventListener('click', async () => {
+			const text = "Ich brauche Hilfe mit meinem Nageldesign-Kurs auf dieser Seite. Frage: ";
+			try {
+				await navigator.clipboard.writeText(text);
+				claudeHint.textContent = 'Kopiert! Im Claude-Chat einfügen und deine Frage ergänzen.';
+			} catch (e) {
+				claudeHint.textContent = 'Text bitte manuell markieren und kopieren.';
+			}
+		});
 	</script>
 
 </body>
